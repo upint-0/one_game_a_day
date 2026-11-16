@@ -1,0 +1,128 @@
+[gd_scene format=3 uid="uid://w566xry1qho8"]
+
+[ext_resource type="Script" uid="uid://l23c8t5geljo" path="res://components/player/player.gd" id="1_t3162"]
+[ext_resource type="Script" uid="uid://kxuumhnfbh48" path="res://components/water/buoyancy.gd" id="2_kfe3d"]
+[ext_resource type="Script" uid="uid://b1ro34hryf7wu" path="res://components/player/hud.gd" id="3_ph1f6"]
+[ext_resource type="Script" uid="uid://b8nv2p80ibdme" path="res://components/player/input.gd" id="3_wa6cj"]
+[ext_resource type="Script" uid="uid://cxkbofpbclsdy" path="res://components/player/interaction/interactor.gd" id="4_bv0o5"]
+[ext_resource type="Script" uid="uid://dqwrwtmom61qw" path="res://components/player/inventory.gd" id="4_pxnim"]
+[ext_resource type="Shader" uid="uid://cepfgn4cpyivw" path="res://assets/shaders/crosshair.gdshader" id="5_mpawu"]
+[ext_resource type="Script" uid="uid://5jdt5crk41gg" path="res://components/player/crosshair.gd" id="6_pvtfm"]
+[ext_resource type="Shader" uid="uid://d15y8uvojfh2u" path="res://assets/shaders/pp_fade.gdshader" id="7_02tnr"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8hda7"]
+friction = 0.42
+
+[sub_resource type="SphereMesh" id="SphereMesh_kx5sw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_kx5sw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pvtfm"]
+shader = ExtResource("5_mpawu")
+shader_parameter/inner_radius = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bv0o5"]
+shader = ExtResource("7_02tnr")
+shader_parameter/fade = 0.0
+
+[node name="Player" type="RigidBody3D" unique_id=373381738]
+mass = 30.0
+physics_material_override = SubResource("PhysicsMaterial_8hda7")
+angular_damp = 5.0
+script = ExtResource("1_t3162")
+
+[node name="Buoyancy" type="Node3D" parent="." unique_id=851279564]
+unique_name_in_owner = true
+script = ExtResource("2_kfe3d")
+diameter = 1.0
+volume = 0.5
+metadata/_custom_type_script = "uid://kxuumhnfbh48"
+
+[node name="Input" type="Node" parent="." unique_id=1043733372]
+unique_name_in_owner = true
+script = ExtResource("3_wa6cj")
+
+[node name="Inventory" type="Node" parent="." unique_id=1029443924]
+unique_name_in_owner = true
+script = ExtResource("4_pxnim")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1655108479]
+mesh = SubResource("SphereMesh_kx5sw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=30496317]
+shape = SubResource("SphereShape3D_kx5sw")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1164211113]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.120915055, 0)
+
+[node name="Interactor" type="Marker3D" parent="Camera3D" unique_id=237218789]
+unique_name_in_owner = true
+script = ExtResource("4_bv0o5")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=390152475]
+script = ExtResource("3_ph1f6")
+
+[node name="Depth" type="Label" parent="HUD" unique_id=440061484]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "0m"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Crosshair" type="ColorRect" parent="HUD" unique_id=279838679]
+material = SubResource("ShaderMaterial_pvtfm")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+script = ExtResource("6_pvtfm")
+
+[node name="AirEffect" type="ColorRect" parent="HUD" unique_id=1916678535]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_bv0o5")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Air" type="ColorRect" parent="HUD" unique_id=1554009896]
+custom_minimum_size = Vector2(512, 0)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -256.0
+offset_top = -40.0
+offset_right = 256.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.61339027, 0.61339027, 0.61339027, 1)
+
+[node name="AirLeft" type="ColorRect" parent="HUD/Air" unique_id=1406211874]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0)

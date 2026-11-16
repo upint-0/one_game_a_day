@@ -1,0 +1,25 @@
+[gd_resource type="Environment" format=3 uid="uid://voafri1olx3t"]
+
+[ext_resource type="Texture2D" uid="uid://g6mlsip5nsvo" path="res://assets/textures/skyrender.png" id="1_5s6hf"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_0l0s5"]
+panorama = ExtResource("1_5s6hf")
+
+[sub_resource type="Sky" id="Sky_q0guv"]
+sky_material = SubResource("PanoramaSkyMaterial_0l0s5")
+
+[resource]
+background_mode = 2
+background_color = Color(0.17135501, 0.173172, 0.3335324, 1)
+sky = SubResource("Sky_q0guv")
+tonemap_mode = 1
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.23421654, 0.49509186, 0.7106016, 1)
+fog_sun_scatter = 0.24
+fog_density = 1.0
+fog_aerial_perspective = 0.021
+fog_sky_affect = 0.85
+volumetric_fog_albedo = Color(0.32392377, 0.5256308, 0.61221546, 1)
+adjustment_enabled = true
+adjustment_saturation = 1.33

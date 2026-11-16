@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://b68y7myd0cfsu"]
+
+[ext_resource type="PackedScene" uid="uid://didju05pvqhx8" path="res://assets/3D/props/planks.glb" id="1_h30lr"]
+[ext_resource type="Script" uid="uid://kxuumhnfbh48" path="res://components/water/buoyancy.gd" id="2_qh2j3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h30lr"]
+size = Vector3(1.7096007, 0.15475106, 2.3986425)
+
+[node name="Planks" unique_id=2001091449 instance=ExtResource("1_h30lr")]
+mass = 40.0
+
+[node name="Buoyancy" type="Node3D" parent="." index="0" unique_id=1102383139 node_paths=PackedStringArray("buoys")]
+script = ExtResource("2_qh2j3")
+diameter = 1.0661829782401997
+volume = 0.6345909
+buoys = [NodePath("Marker3D"), NodePath("Marker3D2"), NodePath("Marker3D3"), NodePath("Marker3D4")]
+metadata/_custom_type_script = "uid://kxuumhnfbh48"
+
+[node name="Marker3D" type="Marker3D" parent="Buoyancy" index="0" unique_id=477345165]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+
+[node name="Marker3D2" type="Marker3D" parent="Buoyancy" index="1" unique_id=533038087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+
+[node name="Marker3D3" type="Marker3D" parent="Buoyancy" index="2" unique_id=1630426803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+
+[node name="Marker3D4" type="Marker3D" parent="Buoyancy" index="3" unique_id=432370269]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2" unique_id=1699323062]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.014901996, 0, -0.020281792)
+shape = SubResource("BoxShape3D_h30lr")

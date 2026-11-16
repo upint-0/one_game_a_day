@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://byovyjpkmqm2p"]
+
+[ext_resource type="Environment" uid="uid://bd7e4eghm4cni" path="res://components/ambiance/environment_out.tres" id="1_lnu2h"]
+[ext_resource type="Script" uid="uid://db3wgg707hua4" path="res://components/ambiance/world_environment.gd" id="2_lbhrr"]
+[ext_resource type="Texture2D" uid="uid://doqc6wpc5s8wi" path="res://assets/3D/source/textures/Sand4_S.jpg" id="2_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://b68y7myd0cfsu" path="res://components/planks/planks.tscn" id="3_iywne"]
+[ext_resource type="PackedScene" uid="uid://w566xry1qho8" path="res://components/player/player.tscn" id="3_p57ef"]
+[ext_resource type="PackedScene" uid="uid://dtv4mylhys7n0" path="res://components/water/water.tscn" id="4_lbhrr"]
+[ext_resource type="Script" uid="uid://doj0cjadval2c" path="res://components/rocks/rocks_spawner.gd" id="7_u5sy4"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kx5sw"]
+size = Vector2(512, 512)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0guv"]
+albedo_texture = ExtResource("2_lnu2h")
+uv1_scale = Vector3(0.16, 0.16, 0.16)
+uv1_triplanar = true
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_8hda7"]
+
+[node name="Game" type="Node" unique_id=1312630739]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=419049662]
+environment = ExtResource("1_lnu2h")
+script = ExtResource("2_lbhrr")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=276190609]
+transform = Transform3D(0.8660254, -0.35355347, 0.35355347, 0, 0.7071068, 0.7071068, -0.50000006, -0.61237246, 0.61237246, 0, 0, 0)
+light_energy = 0.4
+shadow_enabled = true
+directional_shadow_mode = 0
+
+[node name="Player" parent="." unique_id=373381738 instance=ExtResource("3_p57ef")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0642736, 6, 0)
+
+[node name="Planks" parent="." unique_id=2001091449 instance=ExtResource("3_iywne")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8122952, 0)
+
+[node name="Water" parent="." unique_id=1343099795 instance=ExtResource("4_lbhrr")]
+
+[node name="Floor" type="MeshInstance3D" parent="." unique_id=1068480281]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.31316, 0)
+mesh = SubResource("PlaneMesh_kx5sw")
+surface_material_override/0 = SubResource("StandardMaterial3D_q0guv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor" unique_id=1807872736]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D" unique_id=1119955824]
+shape = SubResource("WorldBoundaryShape3D_8hda7")
+
+[node name="Rocks" type="Node3D" parent="." unique_id=1289146676]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+script = ExtResource("7_u5sy4")

@@ -1,0 +1,15 @@
+[gd_resource type="Environment" format=3 uid="uid://bd7e4eghm4cni"]
+
+[ext_resource type="Texture2D" uid="uid://g6mlsip5nsvo" path="res://assets/textures/skyrender.png" id="1_8hda7"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_0l0s5"]
+panorama = ExtResource("1_8hda7")
+
+[sub_resource type="Sky" id="Sky_q0guv"]
+sky_material = SubResource("PanoramaSkyMaterial_0l0s5")
+
+[resource]
+background_mode = 2
+background_color = Color(0.17135501, 0.173172, 0.3335324, 1)
+sky = SubResource("Sky_q0guv")
+tonemap_mode = 1
