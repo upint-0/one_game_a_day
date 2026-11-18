@@ -22,6 +22,6 @@ shape = SubResource("ConvexPolygonShape3D_03ktr")
 [node name="CollisionShape3D" parent="Interactable" index="0" unique_id=498425812]
 shape = SubResource("SphereShape3D_sho73")
 
-[connection signal="interacted_with_source" from="Interactable" to="." method="_on_interactable_interacted_with_source"]
+[connection signal="interacted_with_source" from="Interactable" to="." method="_on_interacted"]
 
 [editable path="Interactable"]

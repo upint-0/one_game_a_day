@@ -1,19 +1,30 @@
 [gd_scene format=3 uid="uid://b68y7myd0cfsu"]
 
 [ext_resource type="PackedScene" uid="uid://didju05pvqhx8" path="res://assets/3D/props/planks.glb" id="1_h30lr"]
+[ext_resource type="Script" uid="uid://c4grwhs1k50u2" path="res://components/planks/planks.gd" id="2_k08mi"]
 [ext_resource type="Script" uid="uid://kxuumhnfbh48" path="res://components/water/buoyancy.gd" id="2_qh2j3"]
+[ext_resource type="PackedScene" uid="uid://bkidgu4ng727d" path="res://components/player/interaction/interactable.tscn" id="3_e02i5"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_h30lr"]
-size = Vector3(1.7096007, 0.15475106, 2.3986425)
+[sub_resource type="BoxShape3D" id="BoxShape3D_k08mi"]
+size = Vector3(1.5003967, 0.322052, 0.19897461)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mycq2"]
+size = Vector3(1.455, 0.27296484, 2.142)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j0id0"]
+size = Vector3(2.194481, 0.29821777, 0.18005371)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8hda7"]
+size = Vector3(1.7402496, 0.21665955, 2.3931885)
 
 [node name="Planks" unique_id=2001091449 instance=ExtResource("1_h30lr")]
 mass = 40.0
+script = ExtResource("2_k08mi")
 
-[node name="Buoyancy" type="Node3D" parent="." index="0" unique_id=1102383139 node_paths=PackedStringArray("buoys")]
+[node name="Buoyancy" type="Node3D" parent="." index="0" unique_id=1102383139]
 script = ExtResource("2_qh2j3")
 diameter = 1.0661829782401997
 volume = 0.6345909
-buoys = [NodePath("Marker3D"), NodePath("Marker3D2"), NodePath("Marker3D3"), NodePath("Marker3D4")]
 metadata/_custom_type_script = "uid://kxuumhnfbh48"
 
 [node name="Marker3D" type="Marker3D" parent="Buoyancy" index="0" unique_id=477345165]
@@ -28,6 +39,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
 [node name="Marker3D4" type="Marker3D" parent="Buoyancy" index="3" unique_id=432370269]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2" unique_id=1699323062]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.014901996, 0, -0.020281792)
-shape = SubResource("BoxShape3D_h30lr")
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="2" unique_id=770540924]
+transform = Transform3D(1, 0, 0, 0, 0.965724, 0.25957122, 0, -0.25957122, 0.965724, 0.025093079, 0.1765276, -1.1982834)
+shape = SubResource("BoxShape3D_k08mi")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="." index="3" unique_id=557817749]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.007792592, -0.050544173, -0.006164551)
+shape = SubResource("BoxShape3D_mycq2")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." index="4" unique_id=1492312091]
+transform = Transform3D(-4.371139e-08, 0.22571047, 0.9741944, 0, 0.9741944, -0.22571047, -1, -9.866118e-09, -4.258339e-08, 0.83673203, 0.19983114, -0.044023506)
+shape = SubResource("BoxShape3D_j0id0")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="." index="5" unique_id=1396614074]
+transform = Transform3D(-4.371139e-08, -0.25881904, 0.9659258, 0, 0.9659258, 0.25881904, -1, 1.131334e-08, -4.222196e-08, -0.802319, 0.16945194, 0.010225373)
+shape = SubResource("BoxShape3D_j0id0")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="." index="6" unique_id=490098781]
+transform = Transform3D(1, 0, 0, 0, 0.972571, -0.23260626, 0, 0.23260626, 0.972571, -0.016578674, 0.11931877, 1.1218152)
+shape = SubResource("BoxShape3D_k08mi")
+
+[node name="Interactable_Deck" parent="." index="7" unique_id=1425083718 instance=ExtResource("3_e02i5")]
+unique_name_in_owner = true
+
+[node name="CollisionShape3D" parent="Interactable_Deck" index="0" unique_id=498425812]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.004966736, 0.018348694, -0.034851074)
+shape = SubResource("BoxShape3D_8hda7")
+
+[editable path="Interactable_Deck"]

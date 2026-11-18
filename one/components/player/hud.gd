@@ -3,8 +3,8 @@ extends CanvasLayer
 var current_air := 0.0
 
 @onready var player: Player = owner
-@onready var depth: Label = %Depth
 
+@onready var depth: Label = %Depth
 @onready var air_left: ColorRect = %AirLeft
 @onready var air_effect: ColorRect = %AirEffect
 

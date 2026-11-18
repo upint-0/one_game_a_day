@@ -4,26 +4,31 @@
 [ext_resource type="Script" uid="uid://kxuumhnfbh48" path="res://components/water/buoyancy.gd" id="2_kfe3d"]
 [ext_resource type="Script" uid="uid://b1ro34hryf7wu" path="res://components/player/hud.gd" id="3_ph1f6"]
 [ext_resource type="Script" uid="uid://b8nv2p80ibdme" path="res://components/player/input.gd" id="3_wa6cj"]
-[ext_resource type="Script" uid="uid://cxkbofpbclsdy" path="res://components/player/interaction/interactor.gd" id="4_bv0o5"]
 [ext_resource type="Script" uid="uid://dqwrwtmom61qw" path="res://components/player/inventory.gd" id="4_pxnim"]
 [ext_resource type="Shader" uid="uid://cepfgn4cpyivw" path="res://assets/shaders/crosshair.gdshader" id="5_mpawu"]
+[ext_resource type="Script" uid="uid://bqfl01ucsl3bq" path="res://components/player/pickup_area.gd" id="5_pxnim"]
 [ext_resource type="Script" uid="uid://5jdt5crk41gg" path="res://components/player/crosshair.gd" id="6_pvtfm"]
 [ext_resource type="Shader" uid="uid://d15y8uvojfh2u" path="res://assets/shaders/pp_fade.gdshader" id="7_02tnr"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8hda7"]
-friction = 0.42
+friction = 0.0
+rough = true
+bounce = 0.2
 
 [sub_resource type="SphereMesh" id="SphereMesh_kx5sw"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kx5sw"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pvtfm"]
-shader = ExtResource("5_mpawu")
-shader_parameter/inner_radius = 0.0
+[sub_resource type="SphereShape3D" id="SphereShape3D_q0guv"]
+radius = 1.5370655
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bv0o5"]
 shader = ExtResource("7_02tnr")
 shader_parameter/fade = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pvtfm"]
+shader = ExtResource("5_mpawu")
+shader_parameter/inner_radius = 0.0
 
 [node name="Player" type="RigidBody3D" unique_id=373381738]
 mass = 30.0
@@ -56,12 +61,27 @@ shape = SubResource("SphereShape3D_kx5sw")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.120915055, 0)
 
-[node name="Interactor" type="Marker3D" parent="Camera3D" unique_id=237218789]
-unique_name_in_owner = true
-script = ExtResource("4_bv0o5")
+[node name="PickupArea" type="Area3D" parent="Camera3D" unique_id=1599298814]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+script = ExtResource("5_pxnim")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera3D/PickupArea" unique_id=1883341615]
+shape = SubResource("SphereShape3D_q0guv")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=390152475]
 script = ExtResource("3_ph1f6")
+
+[node name="AirEffect" type="ColorRect" parent="HUD" unique_id=1916678535]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_bv0o5")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="Depth" type="Label" parent="HUD" unique_id=440061484]
 unique_name_in_owner = true
@@ -92,16 +112,6 @@ grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
 mouse_filter = 2
 script = ExtResource("6_pvtfm")
-
-[node name="AirEffect" type="ColorRect" parent="HUD" unique_id=1916678535]
-unique_name_in_owner = true
-material = SubResource("ShaderMaterial_bv0o5")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
 
 [node name="Air" type="ColorRect" parent="HUD" unique_id=1554009896]
 custom_minimum_size = Vector2(512, 0)

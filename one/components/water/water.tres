@@ -1,0 +1,28 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dund8nfkrlw6c"]
+
+[ext_resource type="Shader" uid="uid://djip02dq5h0ll" path="res://assets/shaders/water.gdshader" id="1_jwdvp"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lbhrr"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lnu2h"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_lbhrr")
+seamless = true
+as_normal_map = true
+seamless_blend_skirt = 1.0
+
+[resource]
+render_priority = -128
+shader = ExtResource("1_jwdvp")
+shader_parameter/albedo = Color(0.21693918, 0.26888293, 0.35453036, 0.21568628)
+shader_parameter/murkiness = 0.061
+shader_parameter/roughness = 0.0
+shader_parameter/refraction = 0.05
+shader_parameter/texture_normal = SubResource("NoiseTexture2D_lnu2h")
+shader_parameter/normal_scale = 1.0
+shader_parameter/uv1_blend_sharpness = 1.0
+shader_parameter/uv1_scale = Vector3(0.2, 0.2, 0.2)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)

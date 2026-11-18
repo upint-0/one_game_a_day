@@ -12,7 +12,7 @@ var results: Dictionary
 func _physics_process(_delta: float) -> void:
 	_try_interact()
 	
-	if Input.is_action_just_pressed("swim_front") && current_target:
+	if Input.is_action_just_pressed("interact") && current_target:
 		current_target.interact(self)
 
  

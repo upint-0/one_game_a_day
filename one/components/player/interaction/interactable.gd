@@ -1,7 +1,7 @@
 class_name Interactable extends Area3D
 
 signal interacted
-signal interacted_with_source(interactor: Interactor)
+signal interacted_with_source(interactor: Node3D)
 
 
 func enable() -> void:
@@ -14,6 +14,6 @@ func disable() -> void:
 	monitorable = false
 
 
-func interact(interactor: Interactor) -> void:
+func interact(interactor: Node3D) -> void:
 	interacted.emit()
 	interacted_with_source.emit(interactor)

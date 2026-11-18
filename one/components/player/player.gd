@@ -5,7 +5,7 @@ const FRONT_IMPULSE_STRENGTH := 333.0
 
 const AIR_GAIN_RATE := 1.0
 const AIR_LOSS_RATE := 0.01
-const FRONT_IMPULSE_AIR_LOSS = 0.05
+const FRONT_IMPULSE_AIR_LOSS = 0.035
 
 var air := 1.0:
 	set(value):
@@ -15,7 +15,6 @@ var in_water := false
 @onready var camera: Camera3D = %Camera3D
 @onready var input: PlayerInput = %Input
 @onready var buoyancy: Buoyancy = %Buoyancy
-@onready var interactor: Interactor = %Interactor
 @onready var inventory: Inventory = %Inventory
 
 
@@ -52,7 +51,7 @@ func _physics_process(delta: float) -> void:
 	
 	# Volume
 	var depth := maxf(-camera.global_position.y, 0.0)
-	buoyancy.volume = remap(depth, 0, 24.0, 0.5, 0.1)
+	buoyancy.volume = remap(clampf(depth, 0.0, 24.0), 0, 24.0, 0.4, 0.13)
 	
 	# Air
 	if depth > 0:
@@ -62,7 +61,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _impule_front() -> void:
-	if !in_water && interactor.can_interact(): return
+	if !in_water: return
 	
 	apply_central_impulse( -global_basis.z * input.front_strength * FRONT_IMPULSE_STRENGTH )
 	air -= FRONT_IMPULSE_AIR_LOSS * input.front_strength
