@@ -15,10 +15,6 @@ run/main_scene="uid://byovyjpkmqm2p"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-Dealer="*uid://cwddceqin0uhq"
-
 [display]
 
 window/stretch/mode="canvas_items"
@@ -29,7 +25,6 @@ window/stretch/aspect="expand"
 folder_colors={
 "res://assets/": "green",
 "res://components/": "orange",
-"res://globals/": "purple",
 "res://scenes/": "pink"
 }
 
@@ -62,4 +57,3 @@ interact={
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
-environment/defaults/default_environment="uid://bd7e4eghm4cni"

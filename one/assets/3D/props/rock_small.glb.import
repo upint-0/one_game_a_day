@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/rock_small.glb-b48c526f5773d5d82a7c3609f347cf
 
 nodes/root_type="RigidBody3D"
 nodes/root_name=""
-nodes/root_script=null
+nodes/root_script=Resource("uid://b6akxkfmcxui5", "res://components/rocks/rock.gd")
 mesh_library/use_node_names_as_mesh_names=false
 array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true

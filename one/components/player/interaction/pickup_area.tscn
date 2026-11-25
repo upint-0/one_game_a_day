@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dswpxo5tnir10"]
+
+[ext_resource type="Script" uid="uid://bqfl01ucsl3bq" path="res://components/player/pickup_area.gd" id="1_cu1n0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cvpt1"]
+radius = 0.34814453
+height = 2.6696167
+
+[node name="PickupArea" type="Area3D" unique_id=1026753130]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+script = ExtResource("1_cu1n0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1520921637]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 6.7055225e-08, -1.5104675)
+shape = SubResource("CapsuleShape3D_cvpt1")

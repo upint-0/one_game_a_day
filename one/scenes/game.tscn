@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dtv4mylhys7n0" path="res://components/water/water.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://cl78o13p758ji" path="res://assets/3D/props/terrain.glb" id="6_u5sy4"]
 [ext_resource type="Script" uid="uid://doj0cjadval2c" path="res://components/rocks/rocks_spawner.gd" id="7_u5sy4"]
+[ext_resource type="PackedScene" uid="uid://bn7wsg1phjl7d" path="res://components/rocks/rock.tscn" id="8_gee14"]
 
 [sub_resource type="Gradient" id="Gradient_u5sy4"]
 colors = PackedColorArray(0.2757067, 0.3855633, 0.5502754, 1, 0.074, 0.10969999, 0.2, 1)
@@ -32,9 +33,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8122952, 0)
 
 [node name="Water" parent="." unique_id=1343099795 instance=ExtResource("4_lbhrr")]
 
-[node name="terrain" parent="." unique_id=1893356884 instance=ExtResource("6_u5sy4")]
+[node name="Terrain" parent="." unique_id=1893356884 instance=ExtResource("6_u5sy4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -52.887665, 13)
 
 [node name="Rocks" type="Node3D" parent="." unique_id=1289146676]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 script = ExtResource("7_u5sy4")
+
+[node name="RockMedium" parent="." unique_id=2098528458 instance=ExtResource("8_gee14")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.511339)
+
+[editable path="Terrain"]

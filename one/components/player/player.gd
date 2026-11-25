@@ -21,6 +21,7 @@ var in_water := false
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	input.front_released.connect(_impule_front)
+	body_entered.connect(_on_body_entered)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -61,10 +62,16 @@ func _physics_process(delta: float) -> void:
 
 
 func _impule_front() -> void:
-	if !in_water: return
+	#if !in_water: return
 	
 	apply_central_impulse( -global_basis.z * input.front_strength * FRONT_IMPULSE_STRENGTH )
 	air -= FRONT_IMPULSE_AIR_LOSS * input.front_strength
+
+
+func _on_body_entered(body: Node3D) -> void:
+	if body is Rock:
+		body.target = self
+		body.pickup()
 
 
 func set_in_water(value: bool) -> void:
