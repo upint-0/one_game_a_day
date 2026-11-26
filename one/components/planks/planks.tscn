@@ -3,15 +3,21 @@
 [ext_resource type="PackedScene" uid="uid://didju05pvqhx8" path="res://assets/3D/props/planks.glb" id="1_h30lr"]
 [ext_resource type="Script" uid="uid://c4grwhs1k50u2" path="res://components/planks/planks.gd" id="2_k08mi"]
 [ext_resource type="Script" uid="uid://kxuumhnfbh48" path="res://components/water/buoyancy.gd" id="2_qh2j3"]
+[ext_resource type="Material" uid="uid://cscmggil5i0ew" path="res://assets/3D/props/materials/hightlight.tres" id="4_j0id0"]
+[ext_resource type="PackedScene" uid="uid://bkidgu4ng727d" path="res://components/player/interaction/interactable.tscn" id="4_k08mi"]
+[ext_resource type="Script" uid="uid://dp2qcasdfwokq" path="res://components/player/interaction/highlight.gd" id="5_mycq2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_d2of2"]
-size = Vector3(2.4038696, 0.45599365, 5.587555)
+size = Vector3(1.2428322, 0.45599365, 5.587555)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_e02i5"]
-size = Vector3(1.69907, 0.45599365, 0.35043335)
+size = Vector3(1.699, 0.911, 0.35)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k08mi"]
-size = Vector3(0.4277115, 0.62350464, 5.2250366)
+size = Vector3(0.428, 0.999, 5.225)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_70dxo"]
+size = Vector3(3.0986938, 0.6452637, 7.632843)
 
 [node name="Planks" unique_id=2001091449 instance=ExtResource("1_h30lr")]
 mass = 120.0
@@ -35,30 +41,52 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3)
 [node name="Marker3D4" type="Marker3D" parent="Buoyancy" index="3" unique_id=432370269]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3)
 
+[node name="Planks" parent="." index="1" unique_id=1614785043]
+material_overlay = ExtResource("4_j0id0")
+gi_mode = 2
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2" unique_id=1570056181]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008148193, -0.20077515, 0.08131409)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7097626, -0.20077515, 0.08131409)
 shape = SubResource("BoxShape3D_d2of2")
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="." index="3" unique_id=2143252576]
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="." index="3" unique_id=2100780787]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.76280797, -0.20077515, 0.08131409)
+shape = SubResource("BoxShape3D_d2of2")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="." index="4" unique_id=2143252576]
 transform = Transform3D(0.8660253, 0.23985147, 0.4387155, 0, 0.87743104, -0.47970295, -0.5, 0.41543496, 0.75987756, 0.72786075, 0.07928372, 3.0619476)
 shape = SubResource("BoxShape3D_e02i5")
 
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="." index="4" unique_id=1748011563]
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="." index="5" unique_id=1748011563]
 transform = Transform3D(0.8841679, -0.17455119, -0.43333462, 0.01403971, 0.9370847, -0.34881985, 0.46695814, 0.3023315, 0.8309908, -0.70104265, 0.10069977, 3.010305)
 shape = SubResource("BoxShape3D_e02i5")
 
-[node name="CollisionShape3D6" type="CollisionShape3D" parent="." index="5" unique_id=1559390403]
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="." index="6" unique_id=1559390403]
 transform = Transform3D(0.87508714, 0.13102564, -0.46589145, 0, 0.9626544, 0.27073348, 0.48396534, -0.23691538, 0.8424064, 0.5461078, 0.14516218, -3.1287332)
 shape = SubResource("BoxShape3D_e02i5")
 
-[node name="CollisionShape3D7" type="CollisionShape3D" parent="." index="6" unique_id=488537409]
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="." index="7" unique_id=488537409]
 transform = Transform3D(0.8266999, -0.29157934, 0.481195, 1.4901161e-08, 0.8552404, 0.51823145, -0.562643, -0.4284219, 0.70702714, -0.66236436, 0.14235502, -3.153713)
 shape = SubResource("BoxShape3D_e02i5")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="7" unique_id=460354031]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="8" unique_id=460354031]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2976665, 0.04035628, -0.06997681)
 shape = SubResource("BoxShape3D_k08mi")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="." index="8" unique_id=1599180816]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." index="9" unique_id=1599180816]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.298, 0.04, -0.07)
 shape = SubResource("BoxShape3D_k08mi")
+
+[node name="Plank" parent="." index="10" unique_id=1425083718 instance=ExtResource("4_k08mi")]
+
+[node name="Highlight" type="Node" parent="Plank" index="0" unique_id=1021100029 node_paths=PackedStringArray("mesh")]
+script = ExtResource("5_mycq2")
+mesh = NodePath("../../Planks")
+
+[node name="CollisionShape3D" parent="Plank" index="1" unique_id=498425812]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.015045166, -0.17736816, -0.010635376)
+shape = SubResource("BoxShape3D_70dxo")
+
+[connection signal="interacted_with_source" from="Plank" to="." method="_on_plank_interacted_with_source"]
+
+[editable path="Plank"]

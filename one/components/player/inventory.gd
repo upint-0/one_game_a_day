@@ -10,10 +10,10 @@ var weights: Array[float]
 
 func _physics_process(_delta: float) -> void:
 	# Drop rocks
-	if Input.is_action_just_pressed("interact") and not weights.is_empty() and not interactor.can_interact():
+	if Input.is_action_just_pressed("drop") and not weights.is_empty():
 		var weight: float = weights.pop_back()
 		var instance: Rock = ROCK.instantiate()
-		get_tree().root.add_child(instance)
+		get_tree().current_scene.add_child(instance)
 		instance.mass = weight
 		var player: Player = owner
 		instance.global_position = player.global_position - player.global_basis.z

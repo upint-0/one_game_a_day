@@ -12,7 +12,11 @@ var results: Dictionary
 func _physics_process(_delta: float) -> void:
 	_try_interact()
 	
-	if Input.is_action_just_pressed("interact") && current_target:
+	if current_target == null: return
+	
+	current_target.hover()
+	
+	if Input.is_action_just_pressed("interact"):
 		current_target.interact(self)
 
  
@@ -27,10 +31,10 @@ func _try_interact() -> void:
 	results = space_state.intersect_ray(query)
 	
 	if !results.is_empty():
-		var collider = results["collider"]
+		var collider: Node3D = results["collider"]
 		if collider is Interactable:
 			current_target = collider
-	else:
+	elif current_target != null:
 		current_target = null
 
 

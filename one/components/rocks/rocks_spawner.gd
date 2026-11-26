@@ -10,7 +10,7 @@ func _ready() -> void:
 	
 	for i in 100:
 		var instance: Node3D = ROCK.instantiate()
-		get_tree().current_scene.add_child(instance)
+		add_child(instance)
 		instance.position.x = randf_range(-SPAWN_RADIUS, SPAWN_RADIUS)
 		instance.position.y = -3.0
 		instance.position.z = randf_range(-SPAWN_RADIUS, SPAWN_RADIUS)

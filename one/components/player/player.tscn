@@ -7,7 +7,9 @@
 [ext_resource type="Script" uid="uid://dqwrwtmom61qw" path="res://components/player/inventory.gd" id="4_pxnim"]
 [ext_resource type="Shader" uid="uid://cepfgn4cpyivw" path="res://assets/shaders/crosshair.gdshader" id="5_mpawu"]
 [ext_resource type="Script" uid="uid://cxkbofpbclsdy" path="res://components/player/interaction/interactor.gd" id="5_pxnim"]
+[ext_resource type="Texture2D" uid="uid://lxqkaxtb4t0o" path="res://assets/textures/bubble.png" id="6_fwwnh"]
 [ext_resource type="Script" uid="uid://5jdt5crk41gg" path="res://components/player/crosshair.gd" id="6_pvtfm"]
+[ext_resource type="Script" uid="uid://gfyko1t6ki8w" path="res://components/player/effects.gd" id="6_vxcs8"]
 [ext_resource type="Shader" uid="uid://d15y8uvojfh2u" path="res://assets/shaders/pp_fade.gdshader" id="7_02tnr"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8hda7"]
@@ -16,9 +18,42 @@ rough = true
 bounce = 0.2
 
 [sub_resource type="SphereMesh" id="SphereMesh_kx5sw"]
+radial_segments = 7
+rings = 3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_pxnim"]
 radius = 0.42
+
+[sub_resource type="Curve" id="Curve_vxcs8"]
+_data = [Vector2(0, 0), 0.0, 0.06266204, 0, 0, Vector2(1, 0), -6.3358335, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6fpm1"]
+width = 32
+curve = SubResource("Curve_vxcs8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_te2gg"]
+emission_shape = 1
+emission_sphere_radius = 0.22
+use_rotation_3d = true
+rotation_3d_min = Vector3(0, 0, -30)
+rotation_3d_max = Vector3(0, 0, 30)
+direction = Vector3(0, 0, -1)
+spread = 12.47
+initial_velocity_min = 0.7
+initial_velocity_max = 1.3
+gravity = Vector3(0, 1, 0)
+scale_min = 0.22
+scale_max = 0.68
+scale_curve = SubResource("CurveTexture_6fpm1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ww7f"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.34509805)
+albedo_texture = ExtResource("6_fwwnh")
+
+[sub_resource type="QuadMesh" id="QuadMesh_70dxo"]
+material = SubResource("StandardMaterial3D_1ww7f")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bv0o5"]
 shader = ExtResource("7_02tnr")
@@ -29,6 +64,7 @@ shader = ExtResource("5_mpawu")
 shader_parameter/inner_radius = 0.0
 
 [node name="Player" type="RigidBody3D" unique_id=373381738]
+collision_layer = 3
 mass = 30.0
 physics_material_override = SubResource("PhysicsMaterial_8hda7")
 contact_monitor = true
@@ -51,6 +87,10 @@ script = ExtResource("3_wa6cj")
 unique_name_in_owner = true
 script = ExtResource("4_pxnim")
 
+[node name="LastBreath" type="Timer" parent="." unique_id=589085531]
+unique_name_in_owner = true
+wait_time = 8.0
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1655108479]
 mesh = SubResource("SphereMesh_kx5sw")
 
@@ -59,13 +99,40 @@ shape = SubResource("SphereShape3D_pxnim")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1164211113]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.120915055, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
+near = 0.001
+far = 75.0
 
 [node name="Interactor" type="Marker3D" parent="Camera3D" unique_id=426047293]
+unique_name_in_owner = true
 script = ExtResource("5_pxnim")
+
+[node name="Effects" type="Node3D" parent="Camera3D" unique_id=1551696967]
+script = ExtResource("6_vxcs8")
+
+[node name="Bubbles" type="GPUParticles3D" parent="Camera3D/Effects" unique_id=300781263]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6389871, -0.74141586)
+emitting = false
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.6
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_te2gg")
+draw_pass_1 = SubResource("QuadMesh_70dxo")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=390152475]
 script = ExtResource("3_ph1f6")
+
+[node name="Fade" type="ColorRect" parent="HUD" unique_id=840827907]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
 
 [node name="AirEffect" type="ColorRect" parent="HUD" unique_id=1916678535]
 unique_name_in_owner = true
@@ -87,6 +154,21 @@ offset_right = 20.0
 offset_bottom = 23.0
 grow_horizontal = 2
 text = "0m"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Mass" type="Label" parent="HUD" unique_id=2073014732]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "30kg"
 horizontal_alignment = 1
 vertical_alignment = 2
 
@@ -131,7 +213,8 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0)
 
-[node name="ColorRect" type="ColorRect" parent="HUD" unique_id=598119527]
+[node name="F" type="Label" parent="HUD" unique_id=1627368358]
+unique_name_in_owner = true
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -143,6 +226,8 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.27, 0.27)
 pivot_offset_ratio = Vector2(0.5, 0.5)
-mouse_filter = 2
+theme_override_font_sizes/font_size = 24
+text = "F"
+horizontal_alignment = 1
+vertical_alignment = 1

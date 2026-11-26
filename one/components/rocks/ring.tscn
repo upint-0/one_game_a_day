@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://8cdxjvqklac5"]
+
+[ext_resource type="PackedScene" uid="uid://1qt1sgwvpuoa" path="res://assets/3D/props/ring.glb" id="1_kip43"]
+[ext_resource type="Material" uid="uid://cscmggil5i0ew" path="res://assets/3D/props/materials/hightlight.tres" id="2_45c88"]
+[ext_resource type="PackedScene" uid="uid://bkidgu4ng727d" path="res://components/player/interaction/interactable.tscn" id="2_q5s0r"]
+[ext_resource type="Script" uid="uid://dp2qcasdfwokq" path="res://components/player/interaction/highlight.gd" id="3_wy8r4"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_45c88"]
+height = 0.18847656
+radius = 0.2783203
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_te2gg"]
+height = 0.17089844
+radius = 0.225
+
+[node name="Ring" unique_id=2011762469 instance=ExtResource("1_kip43")]
+continuous_cd = true
+
+[node name="Ring" parent="." index="0" unique_id=1033725007]
+material_overlay = ExtResource("2_45c88")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1" unique_id=924431965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.018066406, 0.05325578)
+shape = SubResource("CylinderShape3D_45c88")
+
+[node name="Interactable" parent="." index="2" unique_id=1425083718 instance=ExtResource("2_q5s0r")]
+
+[node name="Highlight" type="Node" parent="Interactable" index="0" unique_id=464527587 node_paths=PackedStringArray("mesh")]
+script = ExtResource("3_wy8r4")
+mesh = NodePath("../../Ring")
+
+[node name="CollisionShape3D" parent="Interactable" index="1" unique_id=498425812]
+shape = SubResource("CylinderShape3D_te2gg")
+
+[connection signal="interacted_with_source" from="Interactable" to="." method="_interacted"]
+
+[editable path="Interactable"]

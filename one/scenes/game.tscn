@@ -2,12 +2,13 @@
 
 [ext_resource type="Environment" uid="uid://bd7e4eghm4cni" path="res://components/ambiance/environment_out.tres" id="1_u5sy4"]
 [ext_resource type="Script" uid="uid://db3wgg707hua4" path="res://components/ambiance/world_environment.gd" id="2_lbhrr"]
+[ext_resource type="LightmapGIData" uid="uid://dymeox7hyy7pb" path="res://scenes/game.lmbake" id="3_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://b68y7myd0cfsu" path="res://components/planks/planks.tscn" id="3_iywne"]
 [ext_resource type="PackedScene" uid="uid://w566xry1qho8" path="res://components/player/player.tscn" id="3_p57ef"]
 [ext_resource type="PackedScene" uid="uid://dtv4mylhys7n0" path="res://components/water/water.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://cl78o13p758ji" path="res://assets/3D/props/terrain.glb" id="6_u5sy4"]
 [ext_resource type="Script" uid="uid://doj0cjadval2c" path="res://components/rocks/rocks_spawner.gd" id="7_u5sy4"]
-[ext_resource type="PackedScene" uid="uid://bn7wsg1phjl7d" path="res://components/rocks/rock.tscn" id="8_gee14"]
+[ext_resource type="PackedScene" uid="uid://8cdxjvqklac5" path="res://components/rocks/ring.tscn" id="9_0tnpc"]
 
 [sub_resource type="Gradient" id="Gradient_u5sy4"]
 colors = PackedColorArray(0.2757067, 0.3855633, 0.5502754, 1, 0.074, 0.10969999, 0.2, 1)
@@ -19,28 +20,35 @@ environment = ExtResource("1_u5sy4")
 script = ExtResource("2_lbhrr")
 underwater_fog_gradient = SubResource("Gradient_u5sy4")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=276190609]
-transform = Transform3D(0.8660254, -0.35355347, 0.35355347, 0, 0.7071068, 0.7071068, -0.50000006, -0.61237246, 0.61237246, 0, 0, 0)
-light_energy = 0.4
+[node name="LightmapGI" type="LightmapGI" parent="." unique_id=2091395586]
+quality = 0
+texel_scale = 0.5
+max_texture_size = 2048
+light_data = ExtResource("3_0tnpc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="LightmapGI" unique_id=276190609]
+transform = Transform3D(0.86602545, -0.48261008, 0.13071951, 0, 0.261439, 0.9652201, -0.50000006, -0.8359051, 0.22641282, 0, 0, 0)
+light_bake_mode = 1
 shadow_enabled = true
+shadow_opacity = 0.8
+shadow_blur = 4.0
 directional_shadow_mode = 0
+directional_shadow_max_distance = 33.0
 
 [node name="Player" parent="." unique_id=373381738 instance=ExtResource("3_p57ef")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0642736, 6, 0)
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -50.422104, 6.000002, 70.08771)
 
 [node name="Planks" parent="." unique_id=2001091449 instance=ExtResource("3_iywne")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8122952, 0)
+transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, -43.52394, -1.1856713, 60.13974)
 
 [node name="Water" parent="." unique_id=1343099795 instance=ExtResource("4_lbhrr")]
 
-[node name="Terrain" parent="." unique_id=1893356884 instance=ExtResource("6_u5sy4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -52.887665, 13)
+[node name="terrain" parent="." unique_id=1267224443 instance=ExtResource("6_u5sy4")]
+transform = Transform3D(0.64, 0, 0, 0, 0.64, 0, 0, 0, 0.64, 0, -0.34230423, 0)
+
+[node name="Ring" parent="." unique_id=2011762469 instance=ExtResource("9_0tnpc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1620655, 1.6931442, -0.8741417)
 
 [node name="Rocks" type="Node3D" parent="." unique_id=1289146676]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.078339, -2, 41.11207)
 script = ExtResource("7_u5sy4")
-
-[node name="RockMedium" parent="." unique_id=2098528458 instance=ExtResource("8_gee14")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.511339)
-
-[editable path="Terrain"]

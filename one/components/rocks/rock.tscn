@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://b1dvvaxpaw1qs" path="res://assets/3D/props/rock_medium.glb" id="1_cvpt1"]
 [ext_resource type="PackedScene" uid="uid://bkidgu4ng727d" path="res://components/player/interaction/interactable.tscn" id="2_jia8a"]
+[ext_resource type="Material" uid="uid://cscmggil5i0ew" path="res://assets/3D/props/materials/hightlight.tres" id="2_pfxwi"]
+[ext_resource type="Script" uid="uid://dp2qcasdfwokq" path="res://components/player/interaction/highlight.gd" id="3_jia8a"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ww2ci"]
 points = PackedVector3Array(-1.7099872, 0.045365047, -0.24902944, 2.148188, -0.39302152, 1.5897636, 2.1990511, -0.55855495, 1.6347531, -0.13391706, -0.25252864, -2.4870102, -0.7891533, 1.2223619, -0.68689185, -0.5629568, -0.68060863, 1.358302, 0.2386738, 0.2680589, 2.0363572, 1.3754667, 0.690666, -0.09924984, -0.8565228, -0.9009294, -0.9022453, 1.7677665, -0.60686857, -0.3173291, 1.372961, -0.78757644, 2.16968, 0.093157865, 1.0667038, 0.9912796, 0.38136742, 0.9799021, -1.3147217, -1.2759308, -0.48603067, -1.9173449, -0.7921115, 0.3416642, 1.447231, -1.0223234, 0.6396845, -1.6572888, 0.96964186, -0.53704846, -1.6354889, 1.6279327, 0.34033376, 1.436048, -1.6318843, -0.553086, -0.3233769, -1.6560957, 0.4124933, -0.3905246, 0.8434453, -0.48497522, 2.320902, 0.38362247, -0.89526224, 1.2077912, -0.4984182, 0.6366779, -1.9422686, 0.97697794, 0.4160438, 1.821805, -1.5534533, 0.19498573, -1.2942743, 0.3790159, 1.0366194, 0.81462604, 1.9451457, -0.62133914, 0.1234219, 1.6015593, 0.552096, 0.47471496, -1.6231476, 0.4080623, -0.028370304, -0.71254826, -0.46432534, 1.3640542, -1.0284668, -0.4758561, -2.1118686, -0.33628583, -0.8844876, -0.67446285)
@@ -12,6 +14,10 @@ radius = 0.3899441
 [node name="Rock" unique_id=2098528458 instance=ExtResource("1_cvpt1")]
 mass = 2.0
 
+[node name="RockMedium" parent="." index="0" unique_id=1071781585]
+material_overlay = ExtResource("2_pfxwi")
+gi_mode = 2
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1" unique_id=1540654848]
 transform = Transform3D(0.12960002, 0, 0, 0, 0.12960002, 0, 0, 0, 0.12960002, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_ww2ci")
@@ -19,7 +25,11 @@ shape = SubResource("ConvexPolygonShape3D_ww2ci")
 [node name="Interactable" parent="." index="2" unique_id=1425083718 instance=ExtResource("2_jia8a")]
 unique_name_in_owner = true
 
-[node name="CollisionShape3D" parent="Interactable" index="0" unique_id=498425812]
+[node name="Highlight" type="Node" parent="Interactable" index="0" unique_id=180588549 node_paths=PackedStringArray("mesh")]
+script = ExtResource("3_jia8a")
+mesh = NodePath("../../RockMedium")
+
+[node name="CollisionShape3D" parent="Interactable" index="1" unique_id=498425812]
 shape = SubResource("SphereShape3D_ytnr6")
 
 [connection signal="interacted_with_source" from="Interactable" to="." method="_interacted"]

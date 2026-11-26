@@ -21,15 +21,15 @@ func _process(_delta: float) -> void:
 	
 	var y_pos := viewport.get_camera_3d().global_position.y
 	
-	if under and y_pos >= 0.0:
+	if under and y_pos >= 0.03:
 		under = false
-	elif not under and y_pos < 0.0:
+	elif not under and y_pos < 0.03:
 		under = true
 	
 	if under:
 		var alpha := inverse_lerp(0.0, -30.0, max(y_pos, -30.0))
 		environment.fog_light_color = underwater_fog_gradient.sample(alpha)
-		environment.fog_sky_affect = lerpf(.92, 1.0, alpha)
+		#environment.fog_sky_affect = lerpf(.92, 1.0, alpha)
 
 
 func _set_underwater(value: bool) -> void:
