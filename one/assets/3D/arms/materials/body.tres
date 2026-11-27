@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bgakdjfg6lx1u"]
+
+[ext_resource type="Texture2D" uid="uid://dk7vx3wwj4i07" path="res://assets/3D/source/textures/char_texture.png" id="1_nsgxn"]
+
+[resource]
+resource_name = "body"
+cull_mode = 2
+albedo_texture = ExtResource("1_nsgxn")

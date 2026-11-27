@@ -3,6 +3,5 @@
 [ext_resource type="Texture2D" uid="uid://doqc6wpc5s8wi" path="res://assets/3D/source/textures/Sand4_S.jpg" id="1_igfmy"]
 
 [resource]
+shading_mode = 2
 albedo_texture = ExtResource("1_igfmy")
-uv1_scale = Vector3(0.16, 0.16, 0.16)
-uv1_triplanar = true

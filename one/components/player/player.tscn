@@ -5,17 +5,31 @@
 [ext_resource type="Script" uid="uid://b1ro34hryf7wu" path="res://components/player/hud.gd" id="3_ph1f6"]
 [ext_resource type="Script" uid="uid://b8nv2p80ibdme" path="res://components/player/input.gd" id="3_wa6cj"]
 [ext_resource type="Script" uid="uid://dqwrwtmom61qw" path="res://components/player/inventory.gd" id="4_pxnim"]
+[ext_resource type="PackedScene" uid="uid://bttmswk57fxf" path="res://assets/3D/arms/arms.glb" id="5_16fba"]
 [ext_resource type="Shader" uid="uid://cepfgn4cpyivw" path="res://assets/shaders/crosshair.gdshader" id="5_mpawu"]
 [ext_resource type="Script" uid="uid://cxkbofpbclsdy" path="res://components/player/interaction/interactor.gd" id="5_pxnim"]
 [ext_resource type="Texture2D" uid="uid://lxqkaxtb4t0o" path="res://assets/textures/bubble.png" id="6_fwwnh"]
+[ext_resource type="Script" uid="uid://da5m8qw5qont5" path="res://components/player/arms/arms.gd" id="6_hc4cx"]
 [ext_resource type="Script" uid="uid://5jdt5crk41gg" path="res://components/player/crosshair.gd" id="6_pvtfm"]
 [ext_resource type="Script" uid="uid://gfyko1t6ki8w" path="res://components/player/effects.gd" id="6_vxcs8"]
 [ext_resource type="Shader" uid="uid://d15y8uvojfh2u" path="res://assets/shaders/pp_fade.gdshader" id="7_02tnr"]
+[ext_resource type="AudioStream" uid="uid://kjir10v2mwl3" path="res://assets/sounds/drown.ogg" id="14_l1d2p"]
+[ext_resource type="AudioStream" uid="uid://bnnrrua32h8x3" path="res://assets/sounds/bubble_01.ogg" id="15_pdxi8"]
+[ext_resource type="AudioStream" uid="uid://b80ssntqrlvlm" path="res://assets/sounds/bubble_02.ogg" id="16_8rpwc"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8hda7"]
 friction = 0.0
 rough = true
 bounce = 0.2
+
+[sub_resource type="Curve" id="Curve_v44tt"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1.0852712), 0.0, 0.0, 0, 0, Vector2(0.12048192, 0.55813944), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.8015497, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_l1d2p"]
+_data = [Vector2(0, 0.18604648), 0.0, 0.0, 0, 0, Vector2(1, 1), 1.1499258, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="SphereMesh" id="SphereMesh_kx5sw"]
 radial_segments = 7
@@ -23,6 +37,8 @@ rings = 3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_pxnim"]
 radius = 0.42
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_vxcs8"]
 
 [sub_resource type="Curve" id="Curve_vxcs8"]
 _data = [Vector2(0, 0), 0.0, 0.06266204, 0, 0, Vector2(1, 0), -6.3358335, 0.0, 0, 0]
@@ -49,6 +65,7 @@ scale_curve = SubResource("CurveTexture_6fpm1")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ww7f"]
 transparency = 1
+shading_mode = 0
 albedo_color = Color(1, 1, 1, 0.34509805)
 albedo_texture = ExtResource("6_fwwnh")
 
@@ -63,6 +80,24 @@ shader_parameter/fade = 0.0
 shader = ExtResource("5_mpawu")
 shader_parameter/inner_radius = 0.0
 
+[sub_resource type="Gradient" id="Gradient_hc4cx"]
+offsets = PackedFloat32Array(0.2147651, 0.33557048)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_te2gg"]
+gradient = SubResource("Gradient_hc4cx")
+width = 6
+height = 6
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_l5eya"]
+random_pitch = 1.2275939
+random_volume_offset_db = 3.67
+streams_count = 2
+stream_0/stream = ExtResource("15_pdxi8")
+stream_1/stream = ExtResource("16_8rpwc")
+
 [node name="Player" type="RigidBody3D" unique_id=373381738]
 collision_layer = 3
 mass = 30.0
@@ -71,6 +106,8 @@ contact_monitor = true
 max_contacts_reported = 3
 angular_damp = 5.0
 script = ExtResource("1_t3162")
+force_over_time = SubResource("Curve_v44tt")
+friction_over_time = SubResource("Curve_l1d2p")
 
 [node name="Buoyancy" type="Node3D" parent="." unique_id=851279564]
 unique_name_in_owner = true
@@ -92,16 +129,100 @@ unique_name_in_owner = true
 wait_time = 8.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1655108479]
+visible = false
 mesh = SubResource("SphereMesh_kx5sw")
+
+[node name="Arms" parent="." unique_id=140612696 instance=ExtResource("5_16fba")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -1.1775623e-08, -1.4158585, 0.045050263)
+script = ExtResource("6_hc4cx")
+
+[node name="Mesh" parent="Arms/Arms/Skeleton3D" parent_id_path=PackedInt32Array(140612696, 355646648) index="0" unique_id=65198713]
+cast_shadow = 0
+
+[node name="TwoBoneIK3D" type="TwoBoneIK3D" parent="Arms/Arms/Skeleton3D" parent_id_path=PackedInt32Array(140612696, 355646648) index="1" unique_id=966722923]
+setting_count = 2
+settings/0/target_node = NodePath("../../../IK_L")
+settings/0/pole_node = NodePath("../../../Pole_L")
+settings/0/root_bone_name = "arm_upper.L"
+settings/0/root_bone = 1
+settings/0/middle_bone_name = "arm_lower.L"
+settings/0/middle_bone = 2
+settings/0/pole_direction = 0
+settings/0/end_bone_name = "palm.L"
+settings/0/end_bone = 3
+settings/0/use_virtual_end = false
+settings/0/extend_end_bone = true
+settings/0/end_bone/direction = 6
+settings/0/end_bone/length = 0.1
+settings/1/target_node = NodePath("../../../IK_R")
+settings/1/pole_node = NodePath("../../../Pole_R")
+settings/1/root_bone_name = "arm_upper.R"
+settings/1/root_bone = 14
+settings/1/middle_bone_name = "arm_lower.R"
+settings/1/middle_bone = 15
+settings/1/pole_direction = 0
+settings/1/end_bone_name = "palm.R"
+settings/1/end_bone = 16
+settings/1/use_virtual_end = false
+settings/1/extend_end_bone = false
+
+[node name="CopyTransformModifier3D" type="CopyTransformModifier3D" parent="Arms/Arms/Skeleton3D" parent_id_path=PackedInt32Array(140612696, 355646648) index="2" unique_id=1708736783]
+setting_count = 2
+settings/0/amount = 1.0
+settings/0/apply_bone_name = "palm.L"
+settings/0/apply_bone = 3
+settings/0/reference_type = 1
+settings/0/reference_node = NodePath("../../../IK_L")
+settings/1/amount = 1.0
+settings/1/apply_bone_name = "palm.R"
+settings/1/apply_bone = 16
+settings/1/reference_type = 1
+settings/1/reference_node = NodePath("../../../IK_R")
+settings/0/copy = 6
+settings/0/axes = 7
+settings/0/invert = 0
+settings/0/additive = false
+settings/1/copy = 6
+settings/1/axes = 7
+settings/1/invert = 0
+settings/1/additive = false
+
+[node name="IK_L" type="Marker3D" parent="Arms" unique_id=149323600]
+unique_name_in_owner = true
+transform = Transform3D(0.90528226, -0.09489621, -0.4140758, -0.41626498, -0.003632687, -0.9092362, 0.084778845, 0.99548054, -0.04279058, 0, 0, 0)
+
+[node name="IK_R" type="Marker3D" parent="Arms" unique_id=983225492]
+unique_name_in_owner = true
+transform = Transform3D(0.95760036, 0.20081946, 0.20657517, 0.20705597, 0.018843563, -0.9781476, -0.2003237, 0.97944707, -0.023536267, 0, 0, 0)
+
+[node name="Pole_L" type="Marker3D" parent="Arms" unique_id=1721455813]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.5, 0)
+
+[node name="Pole_R" type="Marker3D" parent="Arms" unique_id=1708063938]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.5, 0)
+
+[node name="Targets" type="Node3D" parent="Arms" unique_id=1948234546]
+
+[node name="Extended" type="Marker3D" parent="Arms/Targets" unique_id=11931453]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.445092e-08, 1.4049089, 0.62970626)
+
+[node name="Back" type="Marker3D" parent="Arms/Targets" unique_id=1052906382]
+unique_name_in_owner = true
+transform = Transform3D(-0.2586078, -0.10611541, -0.9601363, -0.9652901, -0.009229179, 0.26101613, -0.03655909, 0.994311, -0.10004545, 0.6977949, 1.4127917, 0.0463527)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=30496317]
 shape = SubResource("SphereShape3D_pxnim")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1652801784]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("SeparationRayShape3D_vxcs8")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1164211113]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
 near = 0.001
-far = 75.0
+far = 125.0
 
 [node name="Interactor" type="Marker3D" parent="Camera3D" unique_id=426047293]
 unique_name_in_owner = true
@@ -123,16 +244,6 @@ draw_pass_1 = SubResource("QuadMesh_70dxo")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=390152475]
 script = ExtResource("3_ph1f6")
-
-[node name="Fade" type="ColorRect" parent="HUD" unique_id=840827907]
-unique_name_in_owner = true
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0)
 
 [node name="AirEffect" type="ColorRect" parent="HUD" unique_id=1916678535]
 unique_name_in_owner = true
@@ -159,20 +270,23 @@ vertical_alignment = 2
 
 [node name="Mass" type="Label" parent="HUD" unique_id=2073014732]
 unique_name_in_owner = true
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -23.0
-grow_horizontal = 0
+offset_left = -20.5
+offset_top = -46.0
+offset_right = 20.5
+offset_bottom = -23.0
+grow_horizontal = 2
 grow_vertical = 0
-text = "30kg"
+text = "0.0kg"
 horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="Crosshair" type="ColorRect" parent="HUD" unique_id=279838679]
+visible = false
 material = SubResource("ShaderMaterial_pvtfm")
 anchors_preset = 8
 anchor_left = 0.5
@@ -190,18 +304,15 @@ mouse_filter = 2
 script = ExtResource("6_pvtfm")
 
 [node name="Air" type="ColorRect" parent="HUD" unique_id=1554009896]
-custom_minimum_size = Vector2(512, 0)
-anchors_preset = 7
-anchor_left = 0.5
+visible = false
+custom_minimum_size = Vector2(512, 15)
+anchors_preset = 12
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -256.0
-offset_top = -40.0
-offset_right = 256.0
 grow_horizontal = 2
 grow_vertical = 0
-color = Color(0.61339027, 0.61339027, 0.61339027, 1)
+color = Color(0.295907, 0.35488474, 0.50516135, 1)
 
 [node name="AirLeft" type="ColorRect" parent="HUD/Air" unique_id=1406211874]
 unique_name_in_owner = true
@@ -212,22 +323,72 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0)
+color = Color(0.42008334, 0.7688262, 0.7627625, 1)
 
-[node name="F" type="Label" parent="HUD" unique_id=1627368358]
+[node name="F" type="TextureRect" parent="HUD" unique_id=1410505254]
 unique_name_in_owner = true
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
-theme_override_font_sizes/font_size = 24
-text = "F"
-horizontal_alignment = 1
-vertical_alignment = 1
+texture = SubResource("GradientTexture2D_te2gg")
+
+[node name="Controls" type="Label" parent="HUD" unique_id=1503742745]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = -63.0
+offset_right = 111.0
+offset_bottom = -14.0
+grow_vertical = 0
+text = "F to pickup
+A to drop"
+
+[node name="Fade" type="ColorRect" parent="HUD" unique_id=840827907]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Drowned" type="Label" parent="HUD" unique_id=1952814764]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "you drowned"
+
+[node name="Sounds" type="Node3D" parent="." unique_id=1714162236]
+
+[node name="Drown" type="AudioStreamPlayer" parent="Sounds" unique_id=327464131]
+unique_name_in_owner = true
+stream = ExtResource("14_l1d2p")
+
+[node name="Bubble" type="AudioStreamPlayer" parent="Sounds" unique_id=452673]
+stream = SubResource("AudioStreamRandomizer_l5eya")
+volume_db = -19.838
+
+[connection signal="front_released" from="Input" to="Sounds/Bubble" method="play"]
+
+[editable path="Arms"]

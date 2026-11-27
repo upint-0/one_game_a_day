@@ -28,7 +28,10 @@ func _physics_process(_delta: float) -> void:
 		depth = global_position.y - (buoyancy.global_position.y-(buoyancy.diameter*0.5))
 		depth = clampf(depth / buoyancy.diameter, 0.0, 1.0)
 		
-		rigidbody.linear_damp = 0.5 + depth
+		if rigidbody is Player:
+			rigidbody.water_friction = 0.5 + depth
+		else:
+			rigidbody.linear_damp = 0.5 + depth
 		rigidbody.angular_damp = 3.0 + depth * 5.0
 
 
@@ -47,6 +50,8 @@ func _on_body_exited(body : Node3D) -> void:
 	if body is RigidBody3D && rigidbodies_in_water.has(body):
 		var rb := body as RigidBody3D
 		rb.linear_damp = 1.0
+		if rb is Player:
+			rb.water_friction = 1.0
 		rb.angular_damp = 10.0
 		rigidbodies_in_water.erase(rb)
 		if body.has_method("set_in_water"):

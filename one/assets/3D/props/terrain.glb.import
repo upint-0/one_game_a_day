@@ -42,7 +42,7 @@ materials/extract_path=""
 _subresources={
 "materials": {
 "terrain": {
-"use_external/enabled": false,
+"use_external/enabled": true,
 "use_external/fallback_path": "res://assets/3D/props/materials/terrain.tres",
 "use_external/path": "uid://dd3lp6u7x1aot"
 }

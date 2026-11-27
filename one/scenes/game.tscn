@@ -1,34 +1,41 @@
 [gd_scene format=3 uid="uid://byovyjpkmqm2p"]
 
-[ext_resource type="Environment" uid="uid://bd7e4eghm4cni" path="res://components/ambiance/environment_out.tres" id="1_u5sy4"]
+[ext_resource type="Environment" uid="uid://bd7e4eghm4cni" path="res://components/ambiance/environment_out.tres" id="1_0tnpc"]
 [ext_resource type="Script" uid="uid://db3wgg707hua4" path="res://components/ambiance/world_environment.gd" id="2_lbhrr"]
-[ext_resource type="LightmapGIData" uid="uid://dymeox7hyy7pb" path="res://scenes/game.lmbake" id="3_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://b68y7myd0cfsu" path="res://components/planks/planks.tscn" id="3_iywne"]
 [ext_resource type="PackedScene" uid="uid://w566xry1qho8" path="res://components/player/player.tscn" id="3_p57ef"]
 [ext_resource type="PackedScene" uid="uid://dtv4mylhys7n0" path="res://components/water/water.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://cl78o13p758ji" path="res://assets/3D/props/terrain.glb" id="6_u5sy4"]
 [ext_resource type="Script" uid="uid://doj0cjadval2c" path="res://components/rocks/rocks_spawner.gd" id="7_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://8cdxjvqklac5" path="res://components/rocks/ring.tscn" id="9_0tnpc"]
+[ext_resource type="QuadMesh" uid="uid://bxk65m4fpftqc" path="res://assets/3D/props/light_shaft.tres" id="9_vtaks"]
 
 [sub_resource type="Gradient" id="Gradient_u5sy4"]
 colors = PackedColorArray(0.2757067, 0.3855633, 0.5502754, 1, 0.074, 0.10969999, 0.2, 1)
 
+[sub_resource type="Curve" id="Curve_5s6hf"]
+_data = [Vector2(0, 0.23595512), 0.0, 0.0, 0, 0, Vector2(1, 0.34831464), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_0tnpc"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 4.29588, 0, 0, Vector2(0.7189189, 1.6179776), 0.0, 0.0, 0, 0, Vector2(1, 0.3595506), -6.1265583, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_uo0o5"]
+offsets = PackedFloat32Array(0, 0.21383648, 0.5597484, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0)
+
 [node name="Game" type="Node" unique_id=1312630739]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=419049662]
-environment = ExtResource("1_u5sy4")
+environment = ExtResource("1_0tnpc")
 script = ExtResource("2_lbhrr")
 underwater_fog_gradient = SubResource("Gradient_u5sy4")
 
-[node name="LightmapGI" type="LightmapGI" parent="." unique_id=2091395586]
-quality = 0
-texel_scale = 0.5
-max_texture_size = 2048
-light_data = ExtResource("3_0tnpc")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="LightmapGI" unique_id=276190609]
-transform = Transform3D(0.86602545, -0.48261008, 0.13071951, 0, 0.261439, 0.9652201, -0.50000006, -0.8359051, 0.22641282, 0, 0, 0)
-light_bake_mode = 1
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=276190609]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+light_color = Color(0.7786972, 0.7866674, 0.67502433, 1)
 shadow_enabled = true
 shadow_opacity = 0.8
 shadow_blur = 4.0
@@ -36,10 +43,14 @@ directional_shadow_mode = 0
 directional_shadow_max_distance = 33.0
 
 [node name="Player" parent="." unique_id=373381738 instance=ExtResource("3_p57ef")]
-transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -50.422104, 6.000002, 70.08771)
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -57.74039, 6.000002, -25.291561)
 
 [node name="Planks" parent="." unique_id=2001091449 instance=ExtResource("3_iywne")]
-transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, -43.52394, -1.1856713, 60.13974)
+transform = Transform3D(0.5000001, 0, 0.8660253, 0, 1, 0, -0.8660253, 0, 0.5000001, -50.842228, -1.1856713, -35.23953)
+
+[node name="Rocks" type="Node3D" parent="." unique_id=1289146676]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.95312, -2, -36.023518)
+script = ExtResource("7_u5sy4")
 
 [node name="Water" parent="." unique_id=1343099795 instance=ExtResource("4_lbhrr")]
 
@@ -47,8 +58,34 @@ transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50
 transform = Transform3D(0.64, 0, 0, 0, 0.64, 0, 0, 0, 0.64, 0, -0.34230423, 0)
 
 [node name="Ring" parent="." unique_id=2011762469 instance=ExtResource("9_0tnpc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1620655, 1.6931442, -0.8741417)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.17877, -73.50998, 39.35689)
 
-[node name="Rocks" type="Node3D" parent="." unique_id=1289146676]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.078339, -2, 41.11207)
-script = ExtResource("7_u5sy4")
+[node name="LightShafts" type="CPUParticles3D" parent="." unique_id=834452587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1852365, 0, -0.8808503)
+lifetime = 8.0
+randomness = 0.67
+mesh = ExtResource("9_vtaks")
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 1.0
+emission_ring_radius = 37.35
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 0, 0)
+scale_amount_min = 30.0
+scale_amount_max = 60.0
+split_scale = true
+scale_curve_x = SubResource("Curve_5s6hf")
+scale_curve_y = SubResource("Curve_0tnpc")
+scale_curve_z = SubResource("Curve_5s6hf")
+color_ramp = SubResource("Gradient_uo0o5")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=443599186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.336482, -64.38069, 30.658714)
+light_energy = 8.0
+omni_range = 8.876367
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=1461119339]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.614586, -69.335365, 37.604465)
+light_energy = 8.0
+omni_range = 24.628477

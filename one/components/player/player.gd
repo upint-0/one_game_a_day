@@ -3,16 +3,20 @@ extends RigidBody3D
 
 signal swam(force)
 
-const FRONT_IMPULSE_STRENGTH := 333.0
+const FRONT_IMPULSE_STRENGTH := 900.0
 
-const AIR_GAIN_RATE := 1.0
-const AIR_LOSS_RATE := 0.01
-const FRONT_IMPULSE_AIR_LOSS = 0.035
+const AIR_GAIN_RATE := 0.2
+const AIR_LOSS_RATE := 0.005
+const FRONT_IMPULSE_AIR_LOSS = 0.045
+
+@export var force_over_time: Curve
+@export var friction_over_time: Curve
 
 var air := 1.0:
 	set(value):
 		air = clampf(value, 0.0, 1.0)
 var in_water := false
+var water_friction := 1.0
 
 @onready var camera: Camera3D = %Camera3D
 @onready var input: PlayerInput = %Input
@@ -26,6 +30,10 @@ func _ready() -> void:
 	input.front_released.connect(_impule_front)
 	body_entered.connect(_on_body_entered)
 	last_breath.timeout.connect(func() -> void:
+		get_tree().paused = true
+		%Drowned.show()
+		await get_tree().create_timer(3.0, true, false, true).timeout
+		get_tree().paused = false
 		get_tree().reload_current_scene()
 		)
 
@@ -65,7 +73,7 @@ func _physics_process(delta: float) -> void:
 	# Volume
 	var depth := maxf(-camera.global_position.y, 0.0)
 	depth = clampf(depth, 0.0, 48.0)
-	buoyancy.volume = remap(depth, 0, 48.0, 0.45, 0.13)
+	buoyancy.volume = remap(depth, 0, 48.0, 0.45, 0.2)
 	
 	# Air
 	if depth > 0:
@@ -78,14 +86,23 @@ func _physics_process(delta: float) -> void:
 	
 	if air == 0.0 && last_breath.is_stopped():
 		last_breath.start()
+		%Drown.play()
 
 
 func _impule_front() -> void:
-	#if !in_water: return
-	var force := -global_basis.z * input.front_strength * FRONT_IMPULSE_STRENGTH
-	apply_central_impulse( force )
-	air -= FRONT_IMPULSE_AIR_LOSS * input.front_strength
-	swam.emit(force)
+	air -= FRONT_IMPULSE_AIR_LOSS * max(input.front_strength, 0.66)
+	
+	var force :=  -global_basis.z * FRONT_IMPULSE_STRENGTH
+	swam.emit(-global_basis.z * force)
+	
+	var t := create_tween()
+	t.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+	t.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
+	t.tween_method(func(value: float) -> void:
+		linear_damp = water_friction * friction_over_time.sample(value)
+		apply_central_force( -global_basis.z * force.length() * force_over_time.sample(value))
+		, 0.0, 1.0, 
+		input.front_strength)
 
 
 func _on_body_entered(body: Node3D) -> void:

@@ -11,5 +11,5 @@ void fragment() {
 	vec3 screen = textureLod(screen_texture, SCREEN_UV, vignette * 4.0).rgb;
 	
 	vignette = 1.0 - vignette;
-	COLOR.rgb = screen * vignette;
+	COLOR.rgb = screen * vignette * vignette;
 }

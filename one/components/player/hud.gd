@@ -10,7 +10,7 @@ var current_air := 0.0
 @onready var air_effect: ColorRect = %AirEffect
 @onready var fade: ColorRect = %Fade
 @onready var interactor: Interactor = %Interactor
-@onready var f: Label = %F
+@onready var f: Control = %F
 
 
 func _ready() -> void:

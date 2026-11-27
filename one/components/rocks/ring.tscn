@@ -1,9 +1,29 @@
 [gd_scene format=3 uid="uid://8cdxjvqklac5"]
 
 [ext_resource type="PackedScene" uid="uid://1qt1sgwvpuoa" path="res://assets/3D/props/ring.glb" id="1_kip43"]
-[ext_resource type="Material" uid="uid://cscmggil5i0ew" path="res://assets/3D/props/materials/hightlight.tres" id="2_45c88"]
+[ext_resource type="Shader" uid="uid://vq8kimn3oonb" path="res://assets/shaders/frosted_glass.gdshader" id="2_45c88"]
 [ext_resource type="PackedScene" uid="uid://bkidgu4ng727d" path="res://components/player/interaction/interactable.tscn" id="2_q5s0r"]
 [ext_resource type="Script" uid="uid://dp2qcasdfwokq" path="res://components/player/interaction/highlight.gd" id="3_wy8r4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8noxv"]
+resource_local_to_scene = true
+transparency = 1
+blend_mode = 1
+albedo_color = Color(0.8745098, 0.69411767, 0.23921569, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kauam"]
+render_priority = 0
+shader = ExtResource("2_45c88")
+shader_parameter/color = Color(0.50059414, 0.798391, 0.71718574, 1)
+shader_parameter/color_coat = 0.43999999016512
+shader_parameter/oilyness = 1.999999955296
+shader_parameter/rim_amount = 0.8
+shader_parameter/rim_shape = 3.159999933093
+shader_parameter/rim_color = Color(1, 1, 1, 1)
+shader_parameter/refraction_strength = 0.5
+shader_parameter/blur_amount = 4.0
+shader_parameter/roughness_affect = 0.0
+shader_parameter/roughness = 0.2
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_45c88"]
 height = 0.18847656
@@ -16,8 +36,9 @@ radius = 0.225
 [node name="Ring" unique_id=2011762469 instance=ExtResource("1_kip43")]
 continuous_cd = true
 
-[node name="Ring" parent="." index="0" unique_id=1033725007]
-material_overlay = ExtResource("2_45c88")
+[node name="Ring" parent="." index="0" unique_id=1504298281]
+material_overlay = SubResource("StandardMaterial3D_8noxv")
+surface_material_override/1 = SubResource("ShaderMaterial_kauam")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1" unique_id=924431965]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.018066406, 0.05325578)

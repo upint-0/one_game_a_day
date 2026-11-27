@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://7yoyc8560wb5"]
+
+[sub_resource type="GDScript" id="GDScript_sjfbp"]
+script/source = "extends Control
+
+
+func _ready() -> void:
+	await create_tween().tween_property(get_child(0), \"modulate:a\", 1.0, 2.0).finished
+	
+	for child in get_children():
+		child.show()
+		await get_tree().create_timer(5.0).timeout
+		child.hide()
+	
+	
+	await get_tree().create_timer(3.0).timeout
+	get_tree().change_scene_to_file(\"res://scenes/game.tscn\")
+"
+
+[node name="Intro" type="Control" unique_id=1433447699]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_sjfbp")
+
+[node name="Label" type="Label" parent="." unique_id=133741372]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "You are getting married tomorrow.
+
+The ring just went overboard."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=323132877]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "You are very floaty.
+
+The deepest you go, the more you sink."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="." unique_id=895932425]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "You'll have to focus and calm down.
+
+Every movement counts."
+horizontal_alignment = 1
+vertical_alignment = 1

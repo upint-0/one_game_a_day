@@ -1,0 +1,23 @@
+[gd_resource type="QuadMesh" format=3 uid="uid://bxk65m4fpftqc"]
+
+[ext_resource type="Shader" uid="uid://cxsub6ci8dmi" path="res://assets/shaders/lightshaft.gdshader" id="1_sdtsh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kvpfn"]
+render_priority = 0
+shader = ExtResource("1_sdtsh")
+shader_parameter/ray_color = Color(1, 0.86, 0.6, 1)
+shader_parameter/intensity = 0.09200000437
+shader_parameter/ray_count = 3.538000120555
+shader_parameter/ray_contrast = 0.63600003021
+shader_parameter/sway_speed = 0.8
+shader_parameter/exit_width = 0.38800001680006
+shader_parameter/length_falloff = 3.50800016663
+shader_parameter/opening_softness = 0.09400000376648
+shader_parameter/edge_softness = 0.62500002805756
+shader_parameter/flip_length = false
+shader_parameter/near_fade_start = 10.0
+shader_parameter/near_fade_end = 20.0
+
+[resource]
+material = SubResource("ShaderMaterial_kvpfn")
+center_offset = Vector3(0, -0.5, 0)
